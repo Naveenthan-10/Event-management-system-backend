@@ -10,11 +10,11 @@ export const getEvents = async (req, res) => {
   }
 };
 
-// @desc Create new event
+// @desc Create new event (with img URL)
 export const createEvent = async (req, res) => {
-  const { name, date, location, description } = req.body;
+  const { name, date, location, description, img } = req.body; // Added img
   try {
-    const event = new Event({ name, date, location, description });
+    const event = new Event({ name, date, location, description, img }); // Added img
     const savedEvent = await event.save();
     res.status(201).json(savedEvent);
   } catch (err) {
@@ -22,10 +22,10 @@ export const createEvent = async (req, res) => {
   }
 };
 
-// @desc Update event by ID
+// @desc Update event by ID (with img URL)
 export const updateEvent = async (req, res) => {
   const { id } = req.params;
-  const { name, date, location, description } = req.body;
+  const { name, date, location, description, img } = req.body; // Added img
 
   try {
     const event = await Event.findById(id);
@@ -37,6 +37,7 @@ export const updateEvent = async (req, res) => {
     event.date = date || event.date;
     event.location = location || event.location;
     event.description = description || event.description;
+    event.img = img || event.img; // Added img update
 
     const updatedEvent = await event.save();
     res.json(updatedEvent);
